@@ -201,13 +201,19 @@ pdf.ln(3)
 pdf.para('This activity aims to bridge the gap between theoretical concepts and practical implementation.')
 
 import matplotlib.pyplot as plt
+from PIL import Image
 
 def render_math(formula, filename):
-    fig = plt.figure()
-    fig.text(0, 0, f'${formula}$', fontsize=16)
-    plt.axis('off')
-    plt.savefig(filename, bbox_inches='tight', pad_inches=0.1, transparent=True, dpi=300)
+    fig = plt.figure(figsize=(10, 2))
+    fig.text(0.5, 0.5, f'${formula}$', fontsize=24, ha='center', va='center')
+    plt.savefig(filename, transparent=True, dpi=300)
     plt.close(fig)
+    
+    img = Image.open(filename)
+    bbox = img.getbbox()
+    if bbox:
+        img = img.crop(bbox)
+        img.save(filename)
 
 # Generate math images
 render_math(r'y = ax^2 + bx + c', 'math1.png')
@@ -223,8 +229,8 @@ pdf.bold('Problem 1: Ball Trajectory Modeling')
 pdf.para(
     'The trajectory of a ball under gravity follows a parabolic path. Therefore, the relationship '
     'between horizontal distance x and vertical height y can be modeled as:')
-pdf.image('math1.png', x=pdf.l_margin + 5, h=6)
-pdf.ln(5)
+pdf.image('math1.png', x=pdf.l_margin + 5)
+pdf.ln(3)
 pdf.para('Where a, b, and c are coefficients to be determined; c represents the initial height; and a must be negative (parabola opens downward under gravity).')
 
 # ---- DERIVATION OF NORMAL EQUATION ----
@@ -232,18 +238,18 @@ pdf.bold('3.1 Derivation of the Normal Equation')
 pdf.para(
     'The goal of regression is to find coefficients that minimize the Sum of Squared Errors (SSE). '
     'For a model Y = X * beta, the error vector is e = Y - X * beta, and the SSE is:')
-pdf.image('math2.png', x=pdf.l_margin + 5, h=8)
-pdf.ln(5)
+pdf.image('math2.png', x=pdf.l_margin + 5)
+pdf.ln(3)
 pdf.para('Expanding this expression:')
-pdf.image('math3.png', x=pdf.l_margin + 5, h=7)
-pdf.ln(5)
+pdf.image('math3.png', x=pdf.l_margin + 5)
+pdf.ln(3)
 pdf.para(
     'To minimize SSE, we take the partial derivative with respect to beta and set it to zero:')
-pdf.image('math4.png', x=pdf.l_margin + 5, h=10)
-pdf.ln(5)
+pdf.image('math4.png', x=pdf.l_margin + 5)
+pdf.ln(3)
 pdf.para('Rearranging gives us the Normal Equation:')
-pdf.image('math5.png', x=pdf.l_margin + 5, h=6)
-pdf.ln(5)
+pdf.image('math5.png', x=pdf.l_margin + 5)
+pdf.ln(3)
 pdf.para(
     'This is a system of linear equations. Instead of computing the matrix inverse (which is '
     'computationally expensive and numerically unstable), we solve this system directly using '
