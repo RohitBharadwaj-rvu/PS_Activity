@@ -75,18 +75,33 @@ def main():
     x_curve = np.linspace(min(x_data), range_estimate, 500)
     y_curve = a * x_curve**2 + b_coeff * x_curve + c
 
-    plt.figure(figsize=(10, 6))
-    plt.scatter(x_data, y_data, color='red', label='Noisy Sensor Data')
-    plt.plot(x_curve, y_curve, color='blue', label='Fitted Parabolic Trajectory')
-    plt.title('Ball Tracking - Quadratic Regression (Gaussian Elimination)')
-    plt.xlabel('Horizontal Distance (metres)')
-    plt.ylabel('Height (metres)')
-    plt.axhline(0, color='black', linewidth=1)
-    plt.axvline(0, color='black', linewidth=1)
-    plt.legend()
-    plt.grid(True, linestyle='--', alpha=0.7)
+    y_pred = [a * x**2 + b_coeff * x + c for x in x_data]
+    residuals = [y_data[i] - y_pred[i] for i in range(len(x_data))]
+
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 10), gridspec_kw={'height_ratios': [2, 1]})
+    
+    # Top Subplot: Trajectory
+    ax1.scatter(x_data, y_data, color='red', label='Sensor Data')
+    ax1.plot(x_curve, y_curve, color='blue', label='Fitted Parabolic Trajectory')
+    ax1.set_title('Ball Tracking - Quadratic Regression (Gaussian Elimination)')
+    ax1.set_ylabel('Height (metres)')
+    ax1.axhline(0, color='black', linewidth=1)
+    ax1.axvline(0, color='black', linewidth=1)
+    ax1.legend()
+    ax1.grid(True, linestyle='--', alpha=0.7)
+
+    # Bottom Subplot: Residuals
+    ax2.scatter(x_data, residuals, color='purple', label='Residual Error')
+    ax2.axhline(0, color='black', linewidth=1, linestyle='--')
+    ax2.set_title('Residual Analysis (y_actual - y_predicted)')
+    ax2.set_xlabel('Horizontal Distance (metres)')
+    ax2.set_ylabel('Residual Error (metres)')
+    ax2.legend()
+    ax2.grid(True, linestyle='--', alpha=0.7)
+
+    plt.tight_layout()
     plt.savefig('q1_output.png', dpi=150, bbox_inches='tight')
-    plt.show()
+    # plt.show() # Disabled inside automated scripts for faster runs
 
 if __name__ == "__main__":
     main()
