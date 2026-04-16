@@ -200,6 +200,22 @@ pdf.bullet('To interpret statistical outputs in a meaningful way')
 pdf.ln(3)
 pdf.para('This activity aims to bridge the gap between theoretical concepts and practical implementation.')
 
+import matplotlib.pyplot as plt
+
+def render_math(formula, filename):
+    fig = plt.figure()
+    fig.text(0, 0, f'${formula}$', fontsize=16)
+    plt.axis('off')
+    plt.savefig(filename, bbox_inches='tight', pad_inches=0.1, transparent=True, dpi=300)
+    plt.close(fig)
+
+# Generate math images
+render_math(r'y = ax^2 + bx + c', 'math1.png')
+render_math(r'SSE = \mathbf{e}^T \mathbf{e} = (Y - X\beta)^T (Y - X\beta)', 'math2.png')
+render_math(r'SSE = Y^T Y - 2\beta^T X^T Y + \beta^T X^T X \beta', 'math3.png')
+render_math(r'\frac{\partial (SSE)}{\partial \beta} = -2X^T Y + 2X^T X \beta = 0', 'math4.png')
+render_math(r'(X^T X)\beta = X^T Y', 'math5.png')
+
 # ===================== PAGE 7-9: METHODOLOGY =====================
 pdf.add_page()
 pdf.heading('3. Methodology')
@@ -207,10 +223,8 @@ pdf.bold('Problem 1: Ball Trajectory Modeling')
 pdf.para(
     'The trajectory of a ball under gravity follows a parabolic path. Therefore, the relationship '
     'between horizontal distance x and vertical height y can be modeled as:')
-pdf.set_font('Times', 'I', 12)
-pdf.cell(0, 7, '    y = ax^2 + bx + c', new_x="LMARGIN", new_y="NEXT")
-pdf.ln(3)
-pdf.set_font('Times', '', 12)
+pdf.image('math1.png', x=pdf.l_margin + 5, h=6)
+pdf.ln(5)
 pdf.para('Where a, b, and c are coefficients to be determined; c represents the initial height; and a must be negative (parabola opens downward under gravity).')
 
 # ---- DERIVATION OF NORMAL EQUATION ----
@@ -218,22 +232,18 @@ pdf.bold('3.1 Derivation of the Normal Equation')
 pdf.para(
     'The goal of regression is to find coefficients that minimize the Sum of Squared Errors (SSE). '
     'For a model Y = X * beta, the error vector is e = Y - X * beta, and the SSE is:')
-pdf.set_font('Times', 'I', 12)
-pdf.cell(0, 7, '    SSE = e^T * e = (Y - X*beta)^T * (Y - X*beta)', new_x="LMARGIN", new_y="NEXT")
-pdf.ln(3)
+pdf.image('math2.png', x=pdf.l_margin + 5, h=8)
+pdf.ln(5)
 pdf.para('Expanding this expression:')
-pdf.set_font('Times', 'I', 12)
-pdf.cell(0, 7, '    SSE = Y^T*Y - 2*beta^T*X^T*Y + beta^T*X^T*X*beta', new_x="LMARGIN", new_y="NEXT")
-pdf.ln(3)
+pdf.image('math3.png', x=pdf.l_margin + 5, h=7)
+pdf.ln(5)
 pdf.para(
     'To minimize SSE, we take the partial derivative with respect to beta and set it to zero:')
-pdf.set_font('Times', 'I', 12)
-pdf.cell(0, 7, '    d(SSE)/d(beta) = -2*X^T*Y + 2*X^T*X*beta = 0', new_x="LMARGIN", new_y="NEXT")
-pdf.ln(3)
+pdf.image('math4.png', x=pdf.l_margin + 5, h=10)
+pdf.ln(5)
 pdf.para('Rearranging gives us the Normal Equation:')
-pdf.set_font('Times', 'B', 13)
-pdf.cell(0, 10, '    X^T * X * beta = X^T * Y', new_x="LMARGIN", new_y="NEXT")
-pdf.ln(3)
+pdf.image('math5.png', x=pdf.l_margin + 5, h=6)
+pdf.ln(5)
 pdf.para(
     'This is a system of linear equations. Instead of computing the matrix inverse (which is '
     'computationally expensive and numerically unstable), we solve this system directly using '
