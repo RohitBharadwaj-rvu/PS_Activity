@@ -2,10 +2,13 @@
 
 ## Question 1: Ball-Tracking Regression Modeling
 
-### 1. The Mathematical Model
+### 1. The Mathematical Model & Interpreting "a"
 **What model did we use?**
 We used a **quadratic regression model** (a parabola) because the ball's trajectory is governed by gravity alone. The basic equation for a parabola is:
 `y = ax^2 + bx + c`
+
+**Crucial Viva Interpretation:** When evaluating your matrix output, notice that your computed variable **$a$ is specifically negative**. In your viva, definitely say:
+*"Since our calculated $a$ is negative, it proves mathematically that the parabola opens downward, which perfectly aligns with biological projectile motion tracking under gravity."* (This demonstrates concrete physical intuition rather than just running abstract math).
 
 ### 2. Solving the Normal Equation
 **Why did we use Numpy like this?**
@@ -21,7 +24,10 @@ The mathematical formula for the Normal Equation is: **β = (X^T X)^-1 X^T Y**.
   - *Code Translation:* In our quadratic equation `y = ax^2 + bx + c`, if $x=0$, then $y$ evaluates entirely to the constant $c$. It is simply our first beta property from the matrix: `beta[0]`.
 - **(b) Estimated Range of the ball:**
   - *Logic Structure:* The "range" is defined as the horizontal distance where the ball finally hits the dirt. At ground level, height $y=0$.
-  - *Code Translation:* We establish `ax^2 + bx + c = 0`. To mathematically isolate and solve for $x$, we map standard variables to the classic **Quadratic Formula**. We write out the discriminant, resolving both positive and negative roots. Since throwing distance cannot be negative in physical space, we utilize Python's `max()` to return the positive root value naturally.
+  - *Code Translation:* We establish `ax^2 + bx + c = 0`. To mathematically isolate and solve for $x$, we map standard variables to the classic **Quadratic Formula**. We write out the discriminant, resolving both positive and negative roots. 
+  - *Root Selection Logic:* Our quadratic formula natively produces geometric root values. However, in our physical reality, calculating a "negative distance" is completely meaningless. Thus, we explicitly code logic declaring `range_estimate = root1 if root1 > 0 else root2`. This enforces the fact that we completely disregard the theoretical negative boundary.
+- **Plotting the Computed Trajectory Graph:** 
+  - We use `matplotlib.pyplot` to visually overlay our raw scattered noisy data against our newly plotted mathematical quadratic curve. Plotting the graph physically proves that our manual matrix tracking reliably calculated through the camera noise to map the true gravitational arc of the ball.
 
 ---
 

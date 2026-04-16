@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 def main():
     x_data = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48]
@@ -33,8 +34,23 @@ def main():
     root1 = (-b + np.sqrt(discriminant)) / (2 * a)
     root2 = (-b - np.sqrt(discriminant)) / (2 * a)
     
-    range_estimate = max(root1, root2)
+    range_estimate = root1 if root1 > 0 else root2
     print(f"b) Estimated range of the ball: {range_estimate:.5f} metres")
+
+    x_curve = np.linspace(min(x_data), range_estimate, 500)
+    y_curve = a * x_curve**2 + b * x_curve + c
+
+    plt.figure(figsize=(10, 6))
+    plt.scatter(x_data, y_data, color='red', label='Noisy Sensor Data')
+    plt.plot(x_curve, y_curve, color='blue', label='Fitted Parabolic Trajectory')
+    plt.title('Ball Tracking Regression Model')
+    plt.xlabel('Horizontal Distance (metres)')
+    plt.ylabel('Height (metres)')
+    plt.axhline(0, color='black', linewidth=1)
+    plt.axvline(0, color='black', linewidth=1)
+    plt.legend()
+    plt.grid(True, linestyle='--', alpha=0.7)
+    plt.show()
 
 if __name__ == "__main__":
     main()
