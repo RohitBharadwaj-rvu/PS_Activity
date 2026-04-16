@@ -31,8 +31,6 @@ The mathematical formula for the Normal Equation is: **β = (X^T X)^-1 X^T Y**.
 **What experiment are we simulating here?**
 The code operates as a simulation of rolling a fair 6-sided die. A single independent die roll adheres strictly to a **Uniform Distribution**, meaning every face (1 through 6) has an identical $1/6$ frequency probability. Graphed out, single rolls form a rigid flat block; it is functionally not a bell curve whatsoever.
 
-This emphasizes exactly why the Central Limit Theorem is necessary: The CLT states that if your starting variables are flat, but you generate a sample size (rolling 10 dice together), lock their average value, and iterate that sequence thousands of times, the sheer volume of those *averaged aggregates* will universally format into a completely perfect Normal Distribution (bell curve). 
-
 ### 2. The Code Logic & Flow
 **Why did we choose plain loops instead of NumPy arrays?**
 While bulk array mapping is more optimal, plain Python `for` loops explicitly trace the physical sequence being simulated. During an exam, an evaluator wants to see the student understand the logic behind exactly how sampling is executed: aggregating ONE sample -> assessing ONE sample -> repeating. The code structure acts precisely as requested:
@@ -43,8 +41,10 @@ While bulk array mapping is more optimal, plain Python `for` loops explicitly tr
 - `random`: Used safely to sequester randomized generation logic from larger libraries.
 - `matplotlib.pyplot`: The python industry baseline requirement for mapping statistical visuals natively, drawing precise distribution density via `plt.hist()`.
 
-### 3. Proving Part (c)
-We executed identical structural methods modifying only our total `num_samples` (50 -> 500 -> 5000). 
-- *50 Samples:* Looks blocky, heavily jagged, visibly randomized limit variance.
-- *500 Samples:* Distribution curve is smoothing horizontally. 
-- *5000 Samples:* The Law of Large Numbers completely scales. The histogram mimics a flawless, smoothed bell curve—proving directly that as total independent sample pools increase, they adhere strictly to Normal Distributions.
+### 3. Proving Part (c) (The Critical Clarification)
+**Crucial VIVA Distinction Warning:** The original prompt ambiguously says "as the number of samples increases." However, statistically, the Core Theorem of CLT dictates that a distribution normalizes strictly as the **sample size ($n$)** increases. Increasing the sheer number of experiments (how many times you repeat the sampling) only gives you a smoother graph of whatever shape already exists—it *does not* prove CLT.
+
+To mathematically prove CLT, our code keeps the total number of experimental repetitions permanently high (5000 items) to guarantee smooth charting. Instead, we alter the physical **sample size ($n$)**:
+- *Sample Size $n=1$:* The graph plots perfectly flat (Uniform Distribution).
+- *Sample Size $n=5$:* The exterior probabilities drastically drop, and the histogram center begins bulging upwards in a crude bell shape.
+- *Sample Size $n=50$:* The Central Limit Theorem takes full scaling effect. Regardless of rolling uniform 6-sided dice, mapping $n=50$ plots an absolutely flawless Normal Distribution curve showing statistical convergence.
