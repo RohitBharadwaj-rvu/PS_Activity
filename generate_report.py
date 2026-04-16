@@ -222,6 +222,11 @@ render_math(r'SSE = Y^T Y - 2\beta^T X^T Y + \beta^T X^T X \beta', 'math3.png')
 render_math(r'\frac{\partial (SSE)}{\partial \beta} = -2X^T Y + 2X^T X \beta = 0', 'math4.png')
 render_math(r'(X^T X)\beta = X^T Y', 'math5.png')
 
+def add_math(pdf_obj, filename):
+    img = Image.open(filename)
+    scale = 6 / 112  # 112px maps to physically ~6mm height (approx 16pt font)
+    pdf_obj.image(filename, x=pdf_obj.l_margin + 5, h=img.height * scale)
+
 # ===================== PAGE 7-9: METHODOLOGY =====================
 pdf.add_page()
 pdf.heading('3. Methodology')
@@ -229,7 +234,7 @@ pdf.bold('Problem 1: Ball Trajectory Modeling')
 pdf.para(
     'The trajectory of a ball under gravity follows a parabolic path. Therefore, the relationship '
     'between horizontal distance x and vertical height y can be modeled as:')
-pdf.image('math1.png', x=pdf.l_margin + 5)
+add_math(pdf, 'math1.png')
 pdf.ln(3)
 pdf.para('Where a, b, and c are coefficients to be determined; c represents the initial height; and a must be negative (parabola opens downward under gravity).')
 
@@ -238,17 +243,17 @@ pdf.bold('3.1 Derivation of the Normal Equation')
 pdf.para(
     'The goal of regression is to find coefficients that minimize the Sum of Squared Errors (SSE). '
     'For a model Y = X * beta, the error vector is e = Y - X * beta, and the SSE is:')
-pdf.image('math2.png', x=pdf.l_margin + 5)
+add_math(pdf, 'math2.png')
 pdf.ln(3)
 pdf.para('Expanding this expression:')
-pdf.image('math3.png', x=pdf.l_margin + 5)
+add_math(pdf, 'math3.png')
 pdf.ln(3)
 pdf.para(
     'To minimize SSE, we take the partial derivative with respect to beta and set it to zero:')
-pdf.image('math4.png', x=pdf.l_margin + 5)
+add_math(pdf, 'math4.png')
 pdf.ln(3)
 pdf.para('Rearranging gives us the Normal Equation:')
-pdf.image('math5.png', x=pdf.l_margin + 5)
+add_math(pdf, 'math5.png')
 pdf.ln(3)
 pdf.para(
     'This is a system of linear equations. Instead of computing the matrix inverse (which is '
